@@ -61,6 +61,11 @@ describe('serializeComponents', () => {
     var output = serializeComponents({className: 'my-cube'});
     assert.ok(output.class, 'my-cube');
   });
+
+  it('allows antialias', () => {
+    var output = serializeComponents({antialias: 'true'});
+    assert.equal(output.antialias, 'true');
+  });
 });
 
 describe('getEventMappings', () => {
