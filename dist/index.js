@@ -1,13 +1,14 @@
 'use strict';
 
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.Scene = exports.Entity = undefined;
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
 exports.serializeComponents = serializeComponents;
 
 var _react = require('react');
@@ -35,12 +36,11 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 /**
  * <a-entity>
  */
-
-var Entity = exports.Entity = (function (_React$Component) {
+var Entity = exports.Entity = function (_React$Component) {
   _inherits(Entity, _React$Component);
 
   function Entity() {
-    var _Object$getPrototypeO;
+    var _ref;
 
     var _temp, _this, _ret;
 
@@ -50,7 +50,7 @@ var Entity = exports.Entity = (function (_React$Component) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(Entity)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.attachEvents = function (el) {
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Entity.__proto__ || Object.getPrototypeOf(Entity)).call.apply(_ref, [this].concat(args))), _this), _this.attachEvents = function (el) {
       if (!el) {
         return;
       }
@@ -76,24 +76,25 @@ var Entity = exports.Entity = (function (_React$Component) {
   }]);
 
   return Entity;
-})(_react2.default.Component);
+}(_react2.default.Component);
 
 /**
  * <a-scene>
  */
 
+
 Entity.propTypes = {
   children: _react2.default.PropTypes.any,
   events: _react2.default.PropTypes.object,
   mixin: _react2.default.PropTypes.string,
-  primitve: _react2.default.PropTypes.string
+  primitive: _react2.default.PropTypes.string
 };
 
-var Scene = exports.Scene = (function (_React$Component2) {
+var Scene = exports.Scene = function (_React$Component2) {
   _inherits(Scene, _React$Component2);
 
   function Scene() {
-    var _Object$getPrototypeO2;
+    var _ref2;
 
     var _temp2, _this3, _ret2;
 
@@ -103,7 +104,7 @@ var Scene = exports.Scene = (function (_React$Component2) {
       args[_key2] = arguments[_key2];
     }
 
-    return _ret2 = (_temp2 = (_this3 = _possibleConstructorReturn(this, (_Object$getPrototypeO2 = Object.getPrototypeOf(Scene)).call.apply(_Object$getPrototypeO2, [this].concat(args))), _this3), _this3.attachEvents = function (el) {
+    return _ret2 = (_temp2 = (_this3 = _possibleConstructorReturn(this, (_ref2 = Scene.__proto__ || Object.getPrototypeOf(Scene)).call.apply(_ref2, [this].concat(args))), _this3), _this3.attachEvents = function (el) {
       if (!el) {
         return;
       }
@@ -118,7 +119,7 @@ var Scene = exports.Scene = (function (_React$Component2) {
 
       // Allow through normal attributes..
       var otherProps = {};
-      ['id', 'mixin'].forEach(function (propName) {
+      ['id', 'mixin', 'antialias'].forEach(function (propName) {
         if (_this4.props[propName]) {
           otherProps[propName] = _this4.props[propName];
         }
@@ -135,13 +136,14 @@ var Scene = exports.Scene = (function (_React$Component2) {
   }]);
 
   return Scene;
-})(_react2.default.Component);
+}(_react2.default.Component);
 
 /**
  * Serialize React props to A-Frame components.
  *
  * {primitive: box; width: 10} to 'primitive: box; width: 10'
  */
+
 
 Scene.propTypes = {
   events: _react2.default.PropTypes.object
@@ -163,7 +165,11 @@ function serializeComponents(props) {
       return;
     }
 
-    if (props[component].constructor === Function) {
+    if (props[component] === undefined) {
+      return;
+    }
+
+    if (props[component] && props[component].constructor === Function) {
       return;
     }
 
@@ -173,7 +179,9 @@ function serializeComponents(props) {
       return;
     }
 
-    if (props[component].constructor === Array) {
+    if (props[component] === null) {
+      serialProps[component] = null;
+    } else if (props[component].constructor === Array) {
       // Stringify components passed as array.
       serialProps[component] = props[component].join(' ');
     } else if (props[component].constructor === Object) {
