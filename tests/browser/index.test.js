@@ -242,6 +242,21 @@ suite('<Entity primitive/>', () => {
     assert.equal(scene.getAttribute('undefined'), 'undefined');
     assert.equal(scene.getAttribute('null'), 'null');
   });
+
+  test('clobbers previous component values', done => {
+    ReactDOM.render(<Scene><Entity primitive='a-cylinder' material={{shader: 'standard', opacity: 0.5}}/></Scene>,
+                    div);
+    const cylinderEl = div.querySelector('a-cylinder');
+    div.querySelector('a-scene').addEventListener('loaded', () => {
+      assert.equal(cylinderEl.getAttribute('material').shader, 'standard');
+      assert.equal(cylinderEl.getAttribute('material').opacity, 0.5);
+      ReactDOM.render(<Scene><Entity primitive='a-cylinder' material={{shader: 'flat'}}/></Scene>,
+                      div);
+      assert.equal(cylinderEl.getAttribute('material').shader, 'flat');
+      assert.equal(cylinderEl.getAttribute('material').opacity, 1.0);
+      done();
+    });
+  });
 });
 
 suite('<Entity events/>', () => {

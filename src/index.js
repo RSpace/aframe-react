@@ -19,7 +19,7 @@ function doSetAttribute (el, props, propName) {
   } else if (props[propName] && props[propName].constructor === Function) {
     return;
   } else {
-    el.setAttribute(propName, props[propName]);
+    el.setAttribute(propName, props[propName], true);
   }
 }
 
