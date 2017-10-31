@@ -114,7 +114,7 @@ export class Entity extends React.Component {
     // Let through props that are OK to render initially.
     let reactProps = {};
     Object.keys(props).forEach(propName => {
-      if (['className', 'id', 'mixin'].indexOf(propName) !== -1 ||
+      if (['className', 'id', 'mixin', 'antialias'].indexOf(propName) !== -1 ||
           propName.indexOf('data-') === 0) {
         reactProps[propName] = props[propName];
       }
