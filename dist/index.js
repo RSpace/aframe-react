@@ -170,7 +170,7 @@ var Entity = exports.Entity = function (_React$Component) {
       // Let through props that are OK to render initially.
       var reactProps = {};
       Object.keys(props).forEach(function (propName) {
-        if (['className', 'id', 'mixin'].indexOf(propName) !== -1 || propName.indexOf('data-') === 0) {
+        if (['className', 'id', 'mixin', 'antialias'].indexOf(propName) !== -1 || propName.indexOf('data-') === 0) {
           reactProps[propName] = props[propName];
         }
       });
